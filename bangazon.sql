@@ -1,0 +1,65 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS `Training_programs` (
+	`program_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`start_date`	INTEGER NOT NULL,
+	`end_date`	INTEGER NOT NULL,
+	`max_num_attendees`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Products` (
+	`product_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`product_title`	TEXT NOT NULL,
+	`product_description`	TEXT NOT NULL,
+	`price`	REAL NOT NULL,
+	`customer_id`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Product_type` (
+	`product_type_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`product_type`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Payments` (
+	`payment_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`payment_type`	TEXT NOT NULL,
+	`customer_id`	INTEGER NOT NULL,
+	`account_number`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Orders` (
+	`order_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`product_id`	INTEGER NOT NULL,
+	`customer_id`	INTEGER NOT NULL,
+	`payment_type_id`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Employees` (
+	`employee_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`department_id`	INTEGER NOT NULL,
+	`training_program_id`	INTEGER NOT NULL,
+	`computer_id`	INTEGER NOT NULL,
+	`employee_type`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Employee_type` (
+	`employee_type_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`employee_type`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Departments` (
+	`department_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`supervisor`	TEXT NOT NULL,
+	`employee_type_id`	INTEGER NOT NULL UNIQUE,
+	`employee_id`	INTEGER UNIQUE,
+	`budget`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Customers` (
+	`customer_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`first_name`	TEXT NOT NULL,
+	`last_name`	TEXT NOT NULL,
+	`date_account_created`	INTEGER NOT NULL,
+	`product_id`	INTEGER NOT NULL UNIQUE,
+	`order_id`	INTEGER NOT NULL UNIQUE,
+	`last_date_used`	INTEGER NOT NULL,
+	`active`	INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Computers` (
+	`computer_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`purchased_date`	INTEGER NOT NULL,
+	`commissioned_date`	INTEGER NOT NULL,
+	`employee_id`	INTEGER UNIQUE
+);
+COMMIT;
